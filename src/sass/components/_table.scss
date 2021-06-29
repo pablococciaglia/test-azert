@@ -1,0 +1,55 @@
+/* declaración de mixin con parámetros */
+@mixin color-fontsize ($fontsize, $color, $fontcolor){
+
+    font-size: $fontsize;
+    background-color: $color;
+    color: $fontcolor;
+
+}
+
+.table{
+    border: $color-2 1px solid;
+
+    &__namefield{
+        width: 40vw;
+        border-right: $color-2 3px solid;
+    }
+
+    td {
+        @include color-fontsize (17px, $color-4, black);
+        border-top: $color-2 3px solid;
+    }
+
+    th{
+        @include color-fontsize (23px, $color-5, $color-3);
+        border-bottom: $color-2 0px solid;
+    }
+
+}
+
+/* responsive para monitor de distintas pulgadas y tablets */
+
+@media (max-width: 1400px) {
+    .table{
+        td {
+
+            @include color-fontsize (14px, $color-4, black);
+        }
+
+        th{
+            @include color-fontsize (16px, $color-5, $color-3);
+        }
+    }
+}
+
+@media (max-width: 460px) {
+    .table{
+        td {
+            @include color-fontsize (10px, $color-4, black);
+        }
+
+        th{
+            @include color-fontsize (11px, $color-5, $color-3);
+        }
+    }
+}

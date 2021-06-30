@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {AzertiumApp} from './AzertiumApp'
+import { AzertiumApp } from './AzertiumApp';
 
-import './sass/styles.scss'
+import './sass/styles.scss';
 
 ReactDOM.render(
+	<AzertiumApp />,
 
-  <AzertiumApp />,
-
-  document.getElementById('root')
-
+	document.getElementById('root')
 );

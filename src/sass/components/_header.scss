@@ -1,32 +1,28 @@
-
-input[type=text] {
-    padding-left: 40px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    width: 30vw;
-    border-radius: 30px;
+input[type='text'] {
+	padding-left: 40px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	width: 30vw;
+	border-radius: 30px;
 }
 
-i{
-    position: absolute;
-    transform: translate(15px, -60px);
+i {
+	position: absolute;
+	transform: translate(15px, -60px);
 }
 
-.header{
+.header {
+	&__container {
+		display: flex;
+		align-items: center;
+	}
 
-    &__container{
-        display: flex;
-        align-items: center;
-    }
-
-    &__messages{
-        display: flex;
-        align-items: center;
-        margin-left: 25px;
-        padding-left: 25px;
-        border-left: black 1px solid;
-        height: 40px;
-    }
-
+	&__messages {
+		display: flex;
+		align-items: center;
+		margin-left: 25px;
+		padding-left: 25px;
+		border-left: black 1px solid;
+		height: 40px;
+	}
 }
-    

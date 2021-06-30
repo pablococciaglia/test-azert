@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FrameworkTable } from './components/FrameworkTable';
 import { apiRequest } from './helper/apiRequest';
 import { useForm } from './hooks/useForm';
 
 export const AzertiumApp = () => {
-	//useState para recibir la lista de frameworks provenientes de apiRequest
+	//se hace una refeferencia al input con el hook useRef para luego de la consulta volver a poner el foco en el input
+	const inputRef = useRef(null);
+
+	// useState para recibir la lista de frameworks provenientes de apiRequest
 	const [frameworkList, setframeworkList] = useState([]);
 
-	//se colocarán unas frases en la interfaz de usuario.
+	// Frase inicial que tendra la caja de dialogo.
 	const initialMessage = 'Escriba el nombre del Framework que está buscando';
 
-	//se colocarán unas frases en la interfaz de usuario.
+	// Se colocarán unas frases en la interfaz de usuario.
 	const [mensaje, setmensaje] = useState(initialMessage);
 
-	//se usará una variable para evitar consultas duplicadas
-	const [textForSend, settextForSend] = useState('');
+	// Cambia a dissabled el input para que no se puedar realizar consultas hasta terminar la anterior
+	const [onLoad, setonLoad] = useState(false);
 
 	// inicialización del useState del input del formulario
 	const initialState = {
@@ -32,11 +35,11 @@ export const AzertiumApp = () => {
 		e.preventDefault(); //evita el comportamiento por defecto del submit de formulario
 
 		//si el input de texto esta vacio o si se está repitiendo la misma consulta sale de la funcion para no disparar una peticion fetch innecesaria
-		if (searchText.trim() === '' || textForSend === searchText) {
+		if (searchText.trim() === '') {
 			return;
 		}
 
-		settextForSend(searchText); // Se intruce
+		setonLoad(true);
 
 		//control de la UI con un mensaje de espera
 		setmensaje(
@@ -48,7 +51,7 @@ export const AzertiumApp = () => {
 			</>
 		);
 
-		apiRequest(textForSend)
+		apiRequest(searchText)
 			.then((data) => {
 				//manejo de la petición asincrona
 
@@ -63,6 +66,10 @@ export const AzertiumApp = () => {
 				setmensaje(
 					'El servidor no responde correctamente, por favor inténtelo más tarde'
 				); // Manejo de la UI indicando que hubo falla en la petición al servidor
+			})
+			.finally(() => {
+				setonLoad(false);
+				inputRef.current.focus();
 			});
 	};
 
@@ -79,6 +86,7 @@ export const AzertiumApp = () => {
 			<div className='header__container'>
 				<form onSubmit={handleBuscador}>
 					<input
+						ref={inputRef}
 						type='text'
 						placeholder='Framework'
 						className='form-control'
@@ -86,6 +94,8 @@ export const AzertiumApp = () => {
 						autoComplete='off'
 						onChange={handleInputChange}
 						value={searchText}
+						disabled={onLoad}
+						autofocus='true'
 					/>
 					<i className='bi bi-search'></i>
 				</form>

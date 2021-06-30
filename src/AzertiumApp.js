@@ -13,6 +13,9 @@ export const AzertiumApp = () => {
 	//se colocarán unas frases en la interfaz de usuario.
 	const [mensaje, setmensaje] = useState(initialMessage);
 
+	//se usará una variable para evitar consultas duplicadas
+	const [textForSend, settextForSend] = useState('');
+
 	// inicialización del useState del input del formulario
 	const initialState = {
 		searchText: '',
@@ -28,10 +31,12 @@ export const AzertiumApp = () => {
 	const handleBuscador = (e) => {
 		e.preventDefault(); //evita el comportamiento por defecto del submit de formulario
 
-		//si el input de texto esta vacio sale de la funcion para no disparar una peticion fetch innecesaria
-		if (searchText.trim() === '') {
+		//si el input de texto esta vacio o si se está repitiendo la misma consulta sale de la funcion para no disparar una peticion fetch innecesaria
+		if (searchText.trim() === '' || textForSend === searchText) {
 			return;
 		}
+
+		settextForSend(searchText); // Se intruce
 
 		//control de la UI con un mensaje de espera
 		setmensaje(
@@ -43,7 +48,7 @@ export const AzertiumApp = () => {
 			</>
 		);
 
-		apiRequest(searchText)
+		apiRequest(textForSend)
 			.then((data) => {
 				//manejo de la petición asincrona
 

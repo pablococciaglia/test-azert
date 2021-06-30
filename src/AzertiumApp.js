@@ -95,7 +95,7 @@ export const AzertiumApp = () => {
 						onChange={handleInputChange}
 						value={searchText}
 						disabled={onLoad}
-						autofocus='true'
+						autoFocus={true}
 					/>
 					<i className='bi bi-search'></i>
 				</form>
